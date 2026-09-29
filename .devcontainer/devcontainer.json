@@ -7,7 +7,7 @@
     }
   },
   "postCreateCommand": "pip install -r requirements.txt",
-  "postStartCommand": "bash -c 'nohup python main.py > agent.log 2>&1 &'",
+  "postStartCommand": "setsid -f bash -c 'python main.py > agent.log 2>&1' < /dev/null",
   "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
