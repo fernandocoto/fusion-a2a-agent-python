@@ -1,8 +1,13 @@
 {
   "name": "A2A customer support agent (Fusion showcase)",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
   "postCreateCommand": "pip install -r requirements.txt",
-  "postStartCommand": "nohup python main.py > agent.log 2>&1 &",
+  "postStartCommand": "bash -c 'nohup python main.py > agent.log 2>&1 &'",
   "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
