@@ -7,6 +7,7 @@ import { AgentEvent, DefaultRequestHandler, InMemoryTaskStore } from '@a2a-js/sd
 import { agentCardHandler, jsonRpcHandler, UserBuilder } from '@a2a-js/sdk/server/express';
 import { duplicateInterfacesForLegacy } from '@a2a-js/sdk/compat/v0_3';
 import { answer } from './support-agent.js';
+import { requestLogger } from './request-logger.js';
 
 const PORT = Number(process.env.PORT || 3000);
 
@@ -87,6 +88,8 @@ class SupportAgentExecutor {
 
 const requestHandler = new DefaultRequestHandler(agentCard, new InMemoryTaskStore(), new SupportAgentExecutor());
 const app = express();
+// One log line per request in the terminal (success or error).
+app.use(requestLogger);
 
 // legacyCompat: accept A2A 1.0 (SendMessage) and 0.3 (message/send) clients.
 app.use(`/${AGENT_CARD_PATH}`, agentCardHandler({ agentCardProvider: requestHandler, legacyCompat: { enabled: true } }));
